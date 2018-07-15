@@ -31,6 +31,8 @@ def load_bottleneck_data(training_file, validation_file):
     X_val = validation_data['features']
     y_val = validation_data['labels']
 
+    print("Train size: ", len(X_train))
+    print("validation size: ", len(X_val))
     return X_train, y_train, X_val, y_val
 
 
