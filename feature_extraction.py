@@ -1,6 +1,8 @@
 import pickle
 import tensorflow as tf
 # TODO: import Keras layers you need here
+from keras.models import Model
+from keras.layers import Input, Flatten, Dense
 
 flags = tf.app.flags
 FLAGS = flags.FLAGS
@@ -48,9 +50,18 @@ def main(_):
     # the dataset
     # 10 for cifar10
     # 43 for traffic
-
+    n_class = 10
+    batch_size = 128
+    epochs = 1
+    input_shape = X_train.shape[1:]
+    print("input shape: ", input_shape)
+    input = Input(shape = input_shape)
+    x = Flatten()(input)
+    output = Dense(n_class, activation="softmax")(x)
+    model = Model(inputs=input, outputs=output)
     # TODO: train your model here
-
+    model.compile(optimizer="Adam", loss="sparse_categorical_crossentropy", metrics=['accuracy'])
+    model.fit(x=X_train, y=y_train, batch_size=batch_size, epochs=epochs, validation_date=(X_val, y_val), shuffle=true)
 
 # parses flags and calls the `main` function above
 if __name__ == '__main__':
