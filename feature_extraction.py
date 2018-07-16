@@ -1,6 +1,7 @@
 import pickle
 import tensorflow as tf
 # TODO: import Keras layers you need here
+import numpy as np
 from keras.models import Model
 from keras.layers import Input, Flatten, Dense
 
@@ -10,8 +11,8 @@ FLAGS = flags.FLAGS
 # command line flags
 flags.DEFINE_string('training_file', '', "Bottleneck features training file (.p)")
 flags.DEFINE_string('validation_file', '', "Bottleneck features validation file (.p)")
-flags.DEFINE_string('batch_size', 128, "Batch size, default is 128")
-flags.DEFINE_string('epochs', 1, "Epochs, default is 1")
+flags.DEFINE_integer('batch_size', 128, "Batch size, default is 128")
+flags.DEFINE_integer('epochs', 1, "Epochs, default is 1")
 
 
 def load_bottleneck_data(training_file, validation_file):
@@ -63,7 +64,7 @@ def main(_):
     model = Model(inputs=input, outputs=output)
     # TODO: train your model here
     model.compile(optimizer="Adam", loss="sparse_categorical_crossentropy", metrics=['accuracy'])
-    model.fit(x=X_train, y=y_train, batch_size=batch_size, epochs=epochs, validation_date=(X_val, y_val), shuffle=True)
+    model.fit(x=X_train, y=y_train, batch_size=batch_size, epochs=epochs, validation_data=(X_val, y_val), shuffle=True)
 
 # parses flags and calls the `main` function above
 if __name__ == '__main__':
